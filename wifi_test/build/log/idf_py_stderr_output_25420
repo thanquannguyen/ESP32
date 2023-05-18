@@ -1,0 +1,13 @@
+CMake Error:
+  Running
+
+   'D:/.espressif/tools/ninja/1.10.2/ninja.exe' '-C' 'D:/LABESP/wifi_test/build' '-t' 'restat' 'build.ninja'
+
+  failed with:
+
+   ninja: error: failed recompaction: Permission denied
+
+
+
+CMake Generate step failed.  Build files cannot be regenerated correctly.
+ninja: error: rebuilding 'build.ninja': subcommand failed
