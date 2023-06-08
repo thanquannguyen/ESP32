@@ -155,7 +155,7 @@ void read_sensor()
     float temp = 0.0;
     while (1)
     {
-        esp_err_t result = dht_read_float_data(DHT_TYPE_DHT11, GPIO_NUM_15, &humid, &temp);
+        esp_err_t result = dht_read_float_data(DHT_TYPE_DHT11, GPIO_NUM_2, &humid, &temp);
         if (result != ESP_OK)
         {
             ESP_LOGE(DHT_TAG, "Could not read data from sensor\n");
