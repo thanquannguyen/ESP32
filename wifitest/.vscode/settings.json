@@ -14,5 +14,8 @@
     "idf.portWin": "COM8",
     "idf.pythonBinPathWin": "D:\\.espressif\\python_env\\idf5.0_py3.8_env\\Scripts\\python.exe",
     "idf.toolsPathWin": "D:\\.espressif",
-    "idf.flashType": "UART"
+    "idf.flashType": "UART",
+    "files.associations": {
+        "event_groups.h": "c"
+    }
 }

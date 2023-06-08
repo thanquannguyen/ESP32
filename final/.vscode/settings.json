@@ -16,6 +16,10 @@
     "idf.toolsPathWin": "D:\\.espressif",
     "idf.flashType": "UART",
     "files.associations": {
-        "functional": "c"
+        "functional": "c",
+        "esp_event.h": "c",
+        "array": "c",
+        "string": "c",
+        "string_view": "c"
     }
 }
