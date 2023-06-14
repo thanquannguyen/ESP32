@@ -28,8 +28,8 @@
 #define SDA_PIN GPIO_NUM_5
 #define SCL_PIN GPIO_NUM_4
 
-#define EXAMPLE_ESP_WIFI_SSID "Napoli Coffee Bida"
-#define EXAMPLE_ESP_WIFI_PASS "12345678"
+#define EXAMPLE_ESP_WIFI_SSID "Transformer"
+#define EXAMPLE_ESP_WIFI_PASS "Wsxc3124*"
 #define EXAMPLE_ESP_MAXIMUM_RETRY 5
 
 #define ESP_WIFI_SCAN_AUTH_MODE_THRESHOLD WIFI_AUTH_WPA2_PSK
@@ -289,11 +289,10 @@ void read_sensor(void *pvParameters)
     else
     {
         sprintf(sensor_data, "Humid: %.1f\nTemp: %.1f", humid, temp);
-        sprintf(sensor_mqtt, "%.1f/%.1f", humid, temp);
+        sprintf(sensor_mqtt, "%.1f/%.1f", temp, humid);
         ESP_LOGI(DHT_TAG, "%s", sensor_data);
     }
-    // vTaskDelay(pdMS_TO_TICKS(5000));
-    vTaskDelete(NULL);
+    // vTaskDelete(NULL);
 }
 
 static esp_err_t mqtt_event_handler_cb(esp_mqtt_event_handle_t event)
@@ -305,11 +304,16 @@ static esp_err_t mqtt_event_handler_cb(esp_mqtt_event_handle_t event)
     switch (event->event_id)
     {
     case MQTT_EVENT_CONNECTED:
+        if (sensor_mqtt[0] == '\0')
+        {
+            ESP_LOGE(MQTT_TAG, "No data, skipping MQTT");
+            break;
+        }
         ESP_LOGI(MQTT_TAG, "MQTT_EVENT_CONNECTED");
         msg_id = esp_mqtt_client_subscribe(client, "esp1", 0);
         msg_id = esp_mqtt_client_publish(client, "esp1", sensor_mqtt, 0, 0, 0);
-
         break;
+
     case MQTT_EVENT_DISCONNECTED:
         ESP_LOGI(MQTT_TAG, "MQTT_EVENT_DISCONNECTED");
         break;
@@ -373,10 +377,12 @@ void app_main(void)
     while (1)
     {
         xTaskCreate(&read_sensor, "read_sensor", 2048, NULL, 5, NULL);
-        vTaskDelay(5000 / portTICK_PERIOD_MS);
+        vTaskDelay(100 / portTICK_PERIOD_MS);
         xTaskCreate(&task_ssd1306_display_text, "ssd1306_display_text", 2048, sensor_data, 6, NULL);
         vTaskDelay(100 / portTICK_PERIOD_MS);
         xTaskCreate(&mqtt_app_start, "mqtt_app_start", 2048, NULL, 5, NULL);
-        vTaskDelay(5000 / portTICK_PERIOD_MS);
+        vTaskDelay(100 / portTICK_PERIOD_MS);
+        ESP_LOGW(MQTT_TAG, "WAIT 10s...");
+        vTaskDelay(10000 / portTICK_PERIOD_MS);
     }
 }
