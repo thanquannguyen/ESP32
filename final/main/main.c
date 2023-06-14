@@ -292,7 +292,7 @@ void read_sensor(void *pvParameters)
         sprintf(sensor_mqtt, "%.1f/%.1f", temp, humid);
         ESP_LOGI(DHT_TAG, "%s", sensor_data);
     }
-    // vTaskDelete(NULL);
+    vTaskDelete(NULL);
 }
 
 static esp_err_t mqtt_event_handler_cb(esp_mqtt_event_handle_t event)
